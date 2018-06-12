@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Delaware 2016 election races.">
+
+    <title>SNAP in DE census Tracts</title>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+
+
+    <!-- Load Leaflet from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+    integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+    crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+    integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+    crossorigin=""></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.1.1/dist/esri-leaflet.js"
+    integrity="sha512-ECQqaYZke9cSdqlFG08zSkudgrdF6I1d8ViSa7I3VIszJyVqw4ng1G8sehEXlumdMnFYfzY0tMgdQa4WCs9IUw=="
+    crossorigin=""></script>
+
+    <!-- load the latest release from the cdn automatically -->
+<script src="https://unpkg.com/esri-leaflet-vector"></script>
+
+
+    <style>
+        #mapid_1 { 
+            width: 800px;
+            height:800px; 
+        }
+        .info { 
+            padding: 6px 8px; 
+            font: 14px/16px Arial, Helvetica, sans-serif; 
+            background: white; 
+            background: rgba(255,255,255,0.8); 
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); 
+            border-radius: 5px; 
+        } 
+        .info h4 { 
+            margin: 0 0 5px; 
+            color: #777; 
+        }
+        .legend { 
+            text-align: left; 
+            line-height: 18px; 
+            color: #555;
+        }
+        .legend i { 
+            width: 18px; 
+            height: 18px; 
+            float: left;
+            margin-right: 8px; 
+            opacity: 0.7;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="layout">
+    <!-- Menu toggle -->
+    <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+
+    <div id="main">
+        <div class="header">
+            <h1>New Castle County Delaware:</h1>
+            <h2> SNAP Households, and those with children</h2>
+        </div>
+
+        <div class="content">
+
+            <div id="mapid_1"></div>
+
+<script>
+
+
+    var display_property = 'HOUSEHOLDS'
+
+    var hue_blue = ['#d1e5f0', '#92c5de', '#4393c3', '#2166ac']
+
+    var map_hues = hue_blue
+
+    var nuteral_color = '#f7f7f7'
+
+    var positive_colors = map_hues
+    var negative_colors = hue_blue
+
+    var max_pageviews = 0;
+    var max_pv_per_100000 = 0;
+    var min_pv_per_100000 = 0;
+
+    /*
+    1 44 104 208 2957
+    -1376 -268 -153 -70 -1
+    */
+
+    function returnBreakdowns(){
+
+        return [0, mapRound(0.25*max_pv_per_100000), mapRound(0.5*max_pv_per_100000), mapRound(0.75*max_pv_per_100000)]
+
+        //return [mapRound(0.75*max_pv_per_100000), mapRound(0.5*max_pv_per_100000), mapRound(0.25*max_pv_per_100000), 0, 
+        //    mapRound(0.25*min_pv_per_100000), mapRound(0.5*min_pv_per_100000), mapRound(0.75*min_pv_per_100000), mapRound(min_pv_per_100000)]
+
+        //return [208, 104, 44, 0, -70, -153, -268, -1376]
+    }
+
+
+    //var zipcode_map = L.map('mapid_1').setView([40.0434, -75.7298], 10);
+    var zipcode_map = L.map('mapid_1').setView([39.74, -75.55], 13);
+
+    var layer = L.esri.Vector.basemap('ModernAntique').addTo(zipcode_map);
+
+
+    // control that shows state info on hover
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info');
+        this.update();
+        return this._div;
+    };
+
+    info.update = function (props) {
+        //this._div.innerHTML = '<h4>Pageviews by state</h4>' +  (props ?
+        //    '<b>' + props.pageviews_diff + ' from a population of ' + props.population + ' for ' + props.pv_diff_per_100000 + ' pageviews per 100,000 in ' + props.name + '</b><br />'
+        //    : 'Hover over a state');
+        this._div.innerHTML = '<h4>SNAP Households:</h4>' +  (props ?
+            '<b>' + props['NAMELSAD'] + ' has ' + props['PERCENT_SNAP'] + ' Households</b><br />'
+            : 'Hover over a Census Tract');    };
+
+
+    info.addTo(zipcode_map);
+
+    function mapRound(x){
+        //return Math.ceil(x / 100.0) * 100
+        return Number(Math.round(Number(x) * 100) / 100).toFixed(2)
+    }
+
+    function getColor(d) {
+        //console.log('getColor type: '+typeof(d))
+        d = Number(d)
+        //console.log('getting color for: '+d)
+        /*
+#b2182b
+#d6604d
+#f4a582
+#fddbc7
+#f7f7f7
+#d1e5f0
+#92c5de
+#4393c3
+#2166ac
+        */
+        if (min_pv_per_100000 > 0) {
+            min_pv_per_100000 = 0;
+        }
+
+        breakdowns = returnBreakdowns()
+
+
+
+        if ( d == 0 ) {
+            return nuteral_color
+        }
+
+        //if ( d > 0) {
+            for (i = 0; i < breakdowns.length; i++) {
+                if (d < 0 && d >= breakdowns[i]) {
+                    //console.log('will be returning: '+map_hues[i]+' for: '+d+'. max_pv_per_100000: '+max_pv_per_100000+', min_pv_per_100000: '+min_pv_per_100000)
+                    return map_hues[i]
+                } else if (d > breakdowns[i]) {
+                    //console.log('will be returning: '+map_hues[i]+' for: '+d+'. max_pv_per_100000: '+max_pv_per_100000+', min_pv_per_100000: '+min_pv_per_100000)
+                    return map_hues[i]
+                }
+            }
+
+            return map_hues[map_hues.length - 1]
+
+    }    
+
+    function style(feature) {
+        return {
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7,
+            fillColor: getColor(feature.properties[display_property])
+        };
+    }
+
+    function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+            weight: 5,
+            color: '#666',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+
+        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+            layer.bringToFront();
+        }
+
+        info.update(layer.feature.properties);
+    }
+
+    var geojson;
+
+    function resetHighlight(e) {
+        geojson.resetStyle(e.target);
+        info.update();
+    }
+
+    function zoomToFeature(e) {
+        zipcode_map.fitBounds(e.target.getBounds());
+    }
+
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            //click: zoomToFeature
+        });
+    }
+
+
+
+
+
+
+    zipcode_map.attributionControl.addAttribution(' | Chris A. Williams / Enact Development');
+
+
+    var legend = L.control({position: 'bottomright'});
+
+    /*
+    legend.onAdd = function (map) {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+            //grades = [0, mapRound(0.05*max_pv_per_100000), mapRound(0.15*max_pv_per_100000), mapRound(0.30*max_pv_per_100000), mapRound(0.45*max_pv_per_100000), mapRound(0.60*max_pv_per_100000), mapRound(0.75*max_pv_per_100000), mapRound(0.90*max_pv_per_100000)],
+            grades = [mapRound(0.15*max_pv_per_100000), mapRound(0.40*max_pv_per_100000), mapRound(0.65*max_pv_per_100000), mapRound(0.90*max_pv_per_100000)],
+
+            labels = [],
+            from, to;
+
+        for (var i = 0; i < grades.length; i++) {
+            from = grades[i];
+            to = grades[i + 1];
+
+            labels.push(
+                '<i style="background:' + getColor(from + 1) + '"></i> ' +
+                from + (to ? '&ndash;' + to : '+'));
+        }
+
+        div.innerHTML = labels.join('<br>');
+        return div;
+    };
+    */
+
+    legend.onAdd = function (map) {
+
+        if (min_pv_per_100000 > 0) {
+            min_pv_per_100000 = 0;
+        }
+
+        display_grades = [0, mapRound(0.25*max_pv_per_100000), mapRound(0.5*max_pv_per_100000), mapRound(0.75*max_pv_per_100000), mapRound(max_pv_per_100000)]
+
+        display_grades.reverse(); 
+
+        if (min_pv_per_100000 < 0) {
+
+            //display_grades = [mapRound(min_pv_per_100000), mapRound(0.74*min_pv_per_100000), mapRound(0.49*min_pv_per_100000), mapRound(0.24*min_pv_per_100000), 0, mapRound(0.25*max_pv_per_100000), mapRound(0.5*max_pv_per_100000), mapRound(0.75*max_pv_per_100000), mapRound(max_pv_per_100000)]
+
+            //display_grades.reverse(); 
+
+            //display_grades = [max_pv_per_100000, 208, 104, 44, 0, -70, -153, -268, -1376]
+
+            display_grades = returnBreakdowns()
+
+            //alert(display_grades)
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                //grades = [0, mapRound(0.05*max_pv_per_100000), mapRound(0.15*max_pv_per_100000), mapRound(0.30*max_pv_per_100000), mapRound(0.45*max_pv_per_100000), mapRound(0.60*max_pv_per_100000), mapRound(0.75*max_pv_per_100000), mapRound(0.90*max_pv_per_100000)],
+                
+
+                grades = display_grades,
+
+                labels = [],
+                from, to;
+
+            for (var i = 1; i < grades.length; i++) {
+                to = Number(grades[i]);
+                from = Number(grades[i - 1]);
+
+                if ( from > 0 )
+                {
+                    x = from
+                    from = to
+                    to = x
+                }
+
+
+                /*else if ( i == 0 ) {
+
+                    labels.push(
+                        '<i style="background:' + getColor(from) + '"></i> ' + from.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' <!--or more-->'
+                    );
+
+                }*/
+                //else {
+
+                    labels.push(
+                        '<i style="background:' + getColor(to) + '"></i> ' +
+                        //from.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ((i + 1) < grades.length ? '&ndash;' + to.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ' <!--or less-->'));
+                        from.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '&ndash;' + to.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    );
+                //}
+
+                if ( from == 0 && to > 0) {
+                    labels.push(
+                        '<i style="background:' + getColor(0) + '"></i> ' + from.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    );
+                }
+
+            }
+
+
+        }
+        else {
+
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                //grades = [0, mapRound(0.05*max_pv_per_100000), mapRound(0.15*max_pv_per_100000), mapRound(0.30*max_pv_per_100000), mapRound(0.45*max_pv_per_100000), mapRound(0.60*max_pv_per_100000), mapRound(0.75*max_pv_per_100000), mapRound(0.90*max_pv_per_100000)],
+                
+
+                grades = display_grades,
+
+                labels = [],
+                from, to;
+
+            for (var i = 0; i < grades.length; i++) {
+                from = grades[i];
+                to = grades[i + 1];
+
+                if ( from == 0 ) {
+                    labels.push(
+                        '<i style="background:' + getColor(from) + '"></i> ' + from.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                    );
+                }
+
+                labels.push(
+                    '<i style="background:' + getColor(from) + '"></i> ' +
+                    from.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (to ? '&ndash;' + to.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '+'));
+            }
+
+
+        }
+
+
+        div.innerHTML = labels.join('<br>');
+        return div;
+    };
+
+
+</script>
+
+
+
+<script>
+
+
+
+$(document).ready(function() {
+
+
+    //alert( 'hi there dude.' );
+
+    //var combined_data = 'hi'
+
+    // Pull in zipcode data
+
+    // alert( 'by dude' );
+    // Pull in zipcode data
+
+
+            $.getJSON( "10Delaware.geoJSON", function() {
+            // $.getJSON( "de_delaware_zip_codes_geo.min.json", function() {
+                    //console.log( "success" );
+                })
+                .done(function( SNAPcenTract_data ) {
+                    geojson = L.geoJson(SNAPcenTract_data, {
+                        style: style,
+                        onEachFeature: onEachFeature
+                    }).addTo(zipcode_map);
+
+
+                    //console.log( "second success" );
+
+                    //console.log(district_data)
+
+                    // Pull in donation data by zipcode
+                    // $.getJSON( "electric_cars.json", function() {
+                    //         //console.log( "success 2" );
+                    //     })
+                    //     .done(function( donation_data ) {
+                    //         //console.log( "second success 2" );
+
+                    //         //console.log(donation_data)
+
+                    //         //alert( combined_data );
+
+                    //         for (i in district_data.features) {
+
+                    //             //console.log(district_data.features[i])
+
+                    //             // "name":"19962","zipcode":19962,"num_contrib":"8","total_amount":"3400.00"
+
+                    //             //district_data.features[i].properties.name = district_data.features[i].properties.NAME;
+                    //             //district_data.features[i].properties.zipcode = district_data.features[i].properties.NAME;
+                    //             //district_data.features[i].properties.pageviews_diff = 0;
+                    //             //district_data.features[i].properties.population = 0;
+                    //             //district_data.features[i].properties.pv_diff_per_100000 = 0;
+
+                    //             district_data.features[i].properties.name = ''
+                    //             district_data.features[i].properties[display_property] = 0;
+
+                    //             //key = district_data.features[i].properties.STATEFP10 + district_data.features[i].properties.COUNTYFP10 + district_data.features[i].properties.VTDST10.padStart(4, '0')
+
+                    //             key = district_data.features[i].properties.ZCTA5CE10
+
+                    //             //console.log(typeof(district_data.features[i].properties.VTDST10))
+
+                    //             if (key in donation_data) {
+                    //                 //console.log('found: '+district_data.features[i].properties.DISTRICT)
+
+                    //                 //district_data.features[i].properties.pageviews_diff = Number(parseInt(donation_data[key].pageviews_diff));
+                    //                 //district_data.features[i].properties.population = Number(parseInt(donation_data[key].population));
+                    //                 //district_data.features[i].properties.pv_diff_per_100000 = Number(parseFloat(donation_data[key].pv_diff_per_100000).toFixed(2));
+                    //                 //console.log('data type: '+typeof(district_data.features[i].properties.pv_diff_per_100000))
+
+                    //                 district_data.features[i].properties.name = donation_data[key].Zip
+                    //                 district_data.features[i].properties.Zip = donation_data[key].Zip
+                    //                 district_data.features[i].properties.AgeAvgGrp = donation_data[key].AgeAvgGrp
+                    //                 district_data.features[i].properties.AvgIncomGrp = donation_data[key].AvgIncomGrp
+                    //                 district_data.features[i].properties.Town = donation_data[key].Town
+                    //                 district_data.features[i].properties.urbanGrp = donation_data[key].urbanGrp
+
+                    //                 district_data.features[i].properties[display_property] = Number(parseInt(donation_data[key][display_property]));
+
+                    //                 if ( max_pageviews < district_data.features[i].properties[display_property] ) {
+                    //                      max_pageviews = district_data.features[i].properties[display_property];
+                    //                 }
+
+                    //                 //console.log('curr: '+donation_data[key][display_property]+ ' & new: '+district_data.features[i].properties[display_property])
+
+                    //                 // Javascript doesn't like decimal notation ...
+                    //                 //if ( parseInt(max_pv_per_100000) < parseInt(donation_data[key].pv_diff_per_100000) ) {
+                    //                 //     max_pv_per_100000 = donation_data[key].pv_diff_per_100000;
+                    //                 //}
+                    //                 if ( max_pv_per_100000 < district_data.features[i].properties[display_property] ) {
+                    //                      max_pv_per_100000 = district_data.features[i].properties[display_property];
+                    //                 }
+                    //                 if ( min_pv_per_100000 > district_data.features[i].properties[display_property] ) {
+                    //                      min_pv_per_100000 = district_data.features[i].properties[display_property];
+                    //                      //console.log('setting min to: '+min_pv_per_100000)
+                    //                      //console.log(typeof(district_data.features[i].properties.pv_diff_per_100000))
+                    //                      //console.log(typeof(min_pv_per_100000))
+                    //                 }
+                    //             }
+                    //             else {
+                    //                 console.log('missing: '+key)
+                    //             }
+                    //         }
+
+                    //         //alert(max_pv_per_100000);
+                    //         console.log('min: '+min_pv_per_100000+ ' & max: '+max_pv_per_100000)
+
+                    //         if (min_pv_per_100000 > 0) {
+                    //             min_pv_per_100000 = 0;
+                    //         }
+
+                    //         geojson = L.geoJson(district_data, {
+                    //             style: style,
+                    //             onEachFeature: onEachFeature
+                    //         }).addTo(zipcode_map);
+
+
+
+
+                    //         legend.addTo(zipcode_map);
+
+
+                    //     })
+                    //     .fail(function() {
+                    //         console.log( "error 2" );
+                    //     })
+                    //     .always(function() {
+                    //         //console.log( "getJSON().always() 2" );
+                    //     });
+                    // End Pull in donation data by zipcode
+
+
+
+
+                })
+                .fail(function() {
+                    console.log( "error" );
+                })
+                .always(function() {
+                    //console.log( "getJSON().always()" );
+                });
+
+
+
+} );
+
+
+</script>
+
+
+        
+
+
+
+
+    </div> <!-- /main -->
+
+
+
+
+
+
+
+</div>
+
+
+
+
+</body>
+</html>

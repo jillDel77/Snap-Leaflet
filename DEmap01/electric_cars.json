@@ -1,0 +1,250 @@
+{
+    "19701": {
+        "AgeAvgGrp": "51-55", 
+        "AvgIncomGrp": "$75k-$94K", 
+        "RebatesTtl": "19", 
+        "Town": "Bear", 
+        "Zip": "19701", 
+        "urbanGrp": "95+%"
+    }, 
+    "19702": {
+        "AgeAvgGrp": "47-50", 
+        "AvgIncomGrp": "$75k-$94K", 
+        "RebatesTtl": "21", 
+        "Town": "Newark", 
+        "Zip": "19702", 
+        "urbanGrp": "95+%"
+    }, 
+    "19707": {
+        "AgeAvgGrp": "56-65", 
+        "AvgIncomGrp": ">$95k", 
+        "RebatesTtl": "16", 
+        "Town": "Hockessin", 
+        "Zip": "19707", 
+        "urbanGrp": "95+%"
+    }, 
+    "19709": {
+        "AgeAvgGrp": "47-50", 
+        "AvgIncomGrp": ">$95k", 
+        "RebatesTtl": "49", 
+        "Town": "Middletown", 
+        "Zip": "19709", 
+        "urbanGrp": "55-85%"
+    }, 
+    "19711": {
+        "AgeAvgGrp": "51-55", 
+        "AvgIncomGrp": ">$95k", 
+        "RebatesTtl": "47", 
+        "Town": "Newark", 
+        "Zip": "19711", 
+        "urbanGrp": "95+%"
+    }, 
+    "19713": {
+        "AgeAvgGrp": "38-46", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "15", 
+        "Town": "Newark", 
+        "Zip": "19713", 
+        "urbanGrp": "95+%"
+    }, 
+    "19720": {
+        "AgeAvgGrp": "51-55", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "19", 
+        "Town": "New Castle", 
+        "Zip": "19720", 
+        "urbanGrp": "95+%"
+    }, 
+    "19734": {
+        "AgeAvgGrp": "38-46", 
+        "AvgIncomGrp": ">$95k", 
+        "RebatesTtl": "14", 
+        "Town": "Townsend", 
+        "Zip": "19734", 
+        "urbanGrp": "55-85%"
+    }, 
+    "19802": {
+        "AgeAvgGrp": "47-50", 
+        "AvgIncomGrp": "$45k-$59k", 
+        "RebatesTtl": "10", 
+        "Town": "Wilmington", 
+        "Zip": "19802", 
+        "urbanGrp": "95+%"
+    }, 
+    "19803": {
+        "AgeAvgGrp": "47-50", 
+        "AvgIncomGrp": ">$95k", 
+        "RebatesTtl": "29", 
+        "Town": "Wilmington", 
+        "Zip": "19803", 
+        "urbanGrp": "95+%"
+    }, 
+    "19804": {
+        "AgeAvgGrp": "38-46", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "9", 
+        "Town": "Wilmington", 
+        "Zip": "19804", 
+        "urbanGrp": "95+%"
+    }, 
+    "19805": {
+        "AgeAvgGrp": "51-55", 
+        "AvgIncomGrp": "$45k-$59k", 
+        "RebatesTtl": "20", 
+        "Town": "Wilmington", 
+        "Zip": "19805", 
+        "urbanGrp": "95+%"
+    }, 
+    "19806": {
+        "AgeAvgGrp": "56-65", 
+        "AvgIncomGrp": ">$95k", 
+        "RebatesTtl": "14", 
+        "Town": "Wilmington", 
+        "Zip": "19806", 
+        "urbanGrp": "95+%"
+    }, 
+    "19807": {
+        "AgeAvgGrp": "56-65", 
+        "AvgIncomGrp": ">$95k", 
+        "RebatesTtl": "22", 
+        "Town": "Wilmington", 
+        "Zip": "19807", 
+        "urbanGrp": "55-85%"
+    }, 
+    "19808": {
+        "AgeAvgGrp": "51-55", 
+        "AvgIncomGrp": "$75k-$94K", 
+        "RebatesTtl": "34", 
+        "Town": "Wilmington", 
+        "Zip": "19808", 
+        "urbanGrp": "95+%"
+    }, 
+    "19809": {
+        "AgeAvgGrp": "47-50", 
+        "AvgIncomGrp": "$75k-$94K", 
+        "RebatesTtl": "13", 
+        "Town": "Wilmington", 
+        "Zip": "19809", 
+        "urbanGrp": "95+%"
+    }, 
+    "19810": {
+        "AgeAvgGrp": "38-46", 
+        "AvgIncomGrp": ">$95k", 
+        "RebatesTtl": "19", 
+        "Town": "Wilmington", 
+        "Zip": "19810", 
+        "urbanGrp": "95+%"
+    }, 
+    "19901": {
+        "AgeAvgGrp": "38-46", 
+        "AvgIncomGrp": "$45k-$59k", 
+        "RebatesTtl": "25", 
+        "Town": "Dover", 
+        "Zip": "19901", 
+        "urbanGrp": "95+%"
+    }, 
+    "19904": {
+        "AgeAvgGrp": "51-55", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "22", 
+        "Town": "Dover", 
+        "Zip": "19904", 
+        "urbanGrp": "55-85%"
+    }, 
+    "19933": {
+        "AgeAvgGrp": "56-65", 
+        "AvgIncomGrp": "$45k-$59k", 
+        "RebatesTtl": "11", 
+        "Town": "Bridgeville+", 
+        "Zip": "19933", 
+        "urbanGrp": ">45%"
+    }, 
+    "19934": {
+        "AgeAvgGrp": "51-55", 
+        "AvgIncomGrp": "$75k-$94K", 
+        "RebatesTtl": "14", 
+        "Town": "Camden", 
+        "Zip": "19934", 
+        "urbanGrp": "55-85%"
+    }, 
+    "19938": {
+        "AgeAvgGrp": "47-50", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "8", 
+        "Town": "Clayton", 
+        "Zip": "19938", 
+        "urbanGrp": ">45%"
+    }, 
+    "19958": {
+        "AgeAvgGrp": "56-65", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "30", 
+        "Town": "Lewes", 
+        "Zip": "19958", 
+        "urbanGrp": "55-85%"
+    }, 
+    "19962": {
+        "AgeAvgGrp": "38-46", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "6", 
+        "Town": "Magnolia", 
+        "Zip": "19962", 
+        "urbanGrp": "95+%"
+    }, 
+    "19963": {
+        "AgeAvgGrp": "51-55", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "9", 
+        "Town": "Milford", 
+        "Zip": "19963", 
+        "urbanGrp": "55-85%"
+    }, 
+    "19966": {
+        "AgeAvgGrp": "51-55", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "29", 
+        "Town": "Millsboro", 
+        "Zip": "19966", 
+        "urbanGrp": "55-85%"
+    }, 
+    "19968": {
+        "AgeAvgGrp": "56-65", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "10", 
+        "Town": "Milton", 
+        "Zip": "19968", 
+        "urbanGrp": ">45%"
+    }, 
+    "19971": {
+        "AgeAvgGrp": "56-65", 
+        "AvgIncomGrp": "$75k-$94K", 
+        "RebatesTtl": "19", 
+        "Town": "Rehoboth Beach + Bethany + OceanView", 
+        "Zip": "19971", 
+        "urbanGrp": "95+%"
+    }, 
+    "19973": {
+        "AgeAvgGrp": "47-50", 
+        "AvgIncomGrp": "$45k-$59k", 
+        "RebatesTtl": "11", 
+        "Town": "Seaford", 
+        "Zip": "19973", 
+        "urbanGrp": "55-85%"
+    }, 
+    "19975": {
+        "AgeAvgGrp": "56-65", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "9", 
+        "Town": "Selbyville", 
+        "Zip": "19975", 
+        "urbanGrp": ">45%"
+    }, 
+    "19977": {
+        "AgeAvgGrp": "56-65", 
+        "AvgIncomGrp": "$60k-$74k", 
+        "RebatesTtl": "20", 
+        "Town": "Smyrna", 
+        "Zip": "19977", 
+        "urbanGrp": "55-85%"
+    }
+}
